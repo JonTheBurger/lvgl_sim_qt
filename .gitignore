@@ -1,0 +1,17 @@
+# Build directories
+Build/
+build/
+out/
+
+# IDE/Editor files
+.idea/
+.vs/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+*.swp
+*.tmp
+*.user
+
