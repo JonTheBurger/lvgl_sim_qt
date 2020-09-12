@@ -1,10 +1,12 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.10)
 project(lvgl_sim_qt LANGUAGES C CXX)
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -17,32 +19,8 @@ find_package(Qt${QT_VERSION_MAJOR}
     Widgets
   REQUIRED
 )
+
 add_subdirectory(external)
-
-add_executable(lvgl_qt_widgets
-  src/lvgl_qt_widgets/main.cpp
-  src/lvgl_qt_widgets/MainWindow.cpp
-  src/lvgl_qt_widgets/MainWindow.hpp
-  src/lvgl_qt_widgets/MainWindow.ui
-)
-target_link_libraries(lvgl_qt_widgets
-  PRIVATE
-    lvgl
-    Qt${QT_VERSION_MAJOR}::Widgets
-)
-
-add_executable(lvgl_qt_quick
-  src/lvgl_qt_quick/LvglImageProvider.cpp
-  src/lvgl_qt_quick/LvglImageProvider.hpp
-  src/lvgl_qt_quick/main.cpp
-  src/lvgl_qt_quick/qml.qrc
-)
-target_link_libraries(lvgl_qt_quick
-  PRIVATE
-    lvgl
-    Qt${QT_VERSION_MAJOR}::Quick
-)
-target_compile_definitions(lvgl_qt_quick
-  PRIVATE
-    $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
-)
+add_subdirectory(lvgl_qt)
+add_subdirectory(lvgl_qt_quick)
+add_subdirectory(lvgl_qt_widgets)

@@ -1,21 +1,27 @@
+// Standard
+#include <memory>
+
+// 3rd Party
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickWindow>
-#include <memory>
 
+// Local
+#include "LvglContext.hpp"
 #include "LvglImageProvider.hpp"
 
-void create_demo();
+static void create_demo();
 
 int main(int argc, char* argv[])
 {
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QGuiApplication       app(argc, argv);
   QQmlApplicationEngine engine;
-  QQmlContext           context(engine.rootContext());
+  LvglContext           lvgl;
+  auto                  lvgl_image_provider = std::make_unique<LvglImageProvider>(lvgl);
 
-  engine.addImageProvider("LvglImageProvider", new LvglImageProvider());  // engine takes ownership
+  engine.addImageProvider("LvglImageProvider", lvgl_image_provider.release());  // engine takes ownership
   create_demo();
 
   const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -26,13 +32,12 @@ int main(int argc, char* argv[])
   }
 
   auto* win = qobject_cast<QQuickWindow*>(engine.rootObjects().value(0));
-  if (win == nullptr)
+  if (win != nullptr)
   {
-    return EXIT_FAILURE;
+    win->setProperty("width", LvglContext::Max_Width);
+    win->setProperty("height", LvglContext::Max_Height);
+    win->setProperty("tick_period_ms", LvglContext::Tick_Period_Ms);
   }
-  win->setProperty("width", LV_HOR_RES_MAX);
-  win->setProperty("height", LV_VER_RES_MAX);
-  win->setProperty("tick_period_ms", LvglImageProvider::tick_period_ms);
 
   return app.exec();
 }

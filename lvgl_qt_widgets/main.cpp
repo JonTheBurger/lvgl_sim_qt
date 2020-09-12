@@ -1,31 +1,18 @@
+// 3rd Party
 #include <QApplication>
 #include <lvgl/lvgl.h>
 
+// Local
+#include "LvglContext.hpp"
 #include "MainWindow.hpp"
 
-
-void create_demo();
+static void create_demo();
 
 int main(int argc, char* argv[])
 {
   QApplication app(argc, argv);
-  MainWindow   window;
-
-  lv_disp_buf_t display_buffer{};
-  lv_color_t    buffer[LV_HOR_RES_MAX * LV_VER_RES_MAX]{};
-  lv_disp_drv_t display_driver{};
-
-  lv_init();
-  lv_disp_buf_init(&display_buffer, buffer, nullptr, sizeof(buffer) / sizeof(*buffer));
-  lv_disp_drv_init(&display_driver);
-  display_driver.buffer   = &display_buffer;
-  display_driver.flush_cb = +[](lv_disp_drv_t* display_driver, const lv_area_t* area, lv_color_t* color_p) {
-    auto* window_handle = static_cast<MainWindow*>(display_driver->user_data);
-    window_handle->flush(display_driver, area, color_p);
-    lv_disp_flush_ready(display_driver);
-  };
-  display_driver.user_data = &window;
-  lv_disp_drv_register(&display_driver);
+  LvglContext  lvgl;
+  MainWindow   window(lvgl);
 
   create_demo();
 
@@ -33,7 +20,7 @@ int main(int argc, char* argv[])
   return app.exec();
 }
 
-void create_demo()
+static void create_demo()
 {
   static lv_obj_t* label1 = lv_label_create(lv_scr_act(), NULL);
   lv_label_set_long_mode(label1, LV_LABEL_LONG_BREAK); /*Break the long lines*/
