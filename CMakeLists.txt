@@ -27,16 +27,19 @@ add_executable(lvgl_qt_widgets
 )
 target_link_libraries(lvgl_qt_widgets
   PRIVATE
-    Qt${QT_VERSION_MAJOR}::Widgets
     lvgl
+    Qt${QT_VERSION_MAJOR}::Widgets
 )
 
 add_executable(lvgl_qt_quick
+  src/lvgl_qt_quick/LvglImageProvider.cpp
+  src/lvgl_qt_quick/LvglImageProvider.hpp
   src/lvgl_qt_quick/main.cpp
   src/lvgl_qt_quick/qml.qrc
 )
 target_link_libraries(lvgl_qt_quick
   PRIVATE
+    lvgl
     Qt${QT_VERSION_MAJOR}::Quick
 )
 target_compile_definitions(lvgl_qt_quick

@@ -3,8 +3,6 @@
 
 #include <QGraphicsView>
 #include <QMainWindow>
-#include <QPainter>
-#include <QPixmap>
 #include <QTimer>
 #include <lv_conf.h>
 #include <lvgl/lvgl.h>
@@ -19,8 +17,6 @@ class MainWindow : public QMainWindow {
   QGraphicsScene* scene;
   QRgb            frameBuffer[LV_VER_RES_MAX][LV_HOR_RES_MAX]{};
   QImage          image;
-  QPainter        painter;
-  QPixmap         pixmap;
   QTimer          timer;
 
 public:
@@ -31,7 +27,6 @@ public:
 private:
   static constexpr int tick_period_ms = 100;
 
-  Q_SIGNAL void sceneInvalidated();
   void          updateScene();
 };
 

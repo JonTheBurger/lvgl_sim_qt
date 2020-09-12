@@ -12,17 +12,16 @@ MainWindow::MainWindow(QWidget* parent)
             sizeof(*frameBuffer) / sizeof(**frameBuffer),
             sizeof(frameBuffer) / sizeof(*frameBuffer),
             QImage::Format_RGB32)
-    , painter(&image)
     , timer()
 {
   ui->setupUi(this);
   ui->graphicsView->setScene(scene);
-  timer.setInterval(tick_period_ms);
-  connect(&timer, &QTimer::timeout, []() {
+  connect(&timer, &QTimer::timeout, [this]() {
     lv_tick_inc(tick_period_ms);
     lv_task_handler();
+    this->updateScene();
   });
-  connect(this, &MainWindow::sceneInvalidated, this, &MainWindow::updateScene, Qt::ConnectionType::QueuedConnection);
+  timer.setInterval(tick_period_ms);
   timer.start();
 }
 
@@ -41,7 +40,6 @@ void MainWindow::flush(const lv_disp_drv_t*, const lv_area_t* area, const lv_col
       ++color_p;
     }
   }
-  emit sceneInvalidated();
 }
 
 void MainWindow::updateScene()
