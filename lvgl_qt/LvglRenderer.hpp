@@ -26,9 +26,9 @@ public:
   static constexpr size_t         Max_Width            = LV_HOR_RES_MAX;
 
 private:
-  alignas(uint32_t) lv_color_t display_frame1_[Max_Width * Max_Height];
-  alignas(uint32_t) lv_color_t display_frame2_[Max_Width * Max_Height];
-  alignas(uint32_t) lv_color_t current_frame_[Max_Height][Max_Width];
+  lv_color_t    display_frame1_[Max_Width * Max_Height];
+  lv_color_t    display_frame2_[Max_Width * Max_Height];
+  lv_color_t    current_frame_[Max_Height][Max_Width];
   lv_disp_buf_t display_buffer_;
   lv_disp_drv_t display_driver_;
   QImage        image_;

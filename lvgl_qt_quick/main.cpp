@@ -2,6 +2,7 @@
 #include <memory>
 
 // 3rd Party
+#include <QDebug>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -27,18 +28,19 @@ int main(int argc, char* argv[])
 
   const QUrl url(QStringLiteral("qrc:/main.qml"));
   engine.load(url);
-  if (engine.rootObjects().isEmpty())
+  auto* window = qobject_cast<QQuickWindow*>(engine.rootObjects().value(0, nullptr));
+  if (window == nullptr)
   {
-    return EXIT_FAILURE;
+    EXIT_FAILURE;
   }
+  window->setProperty("width", LvglRenderer::Max_Width);
+  window->setProperty("height", LvglRenderer::Max_Height);
 
-  auto* win = qobject_cast<QQuickWindow*>(engine.rootObjects().value(0));
-  if (win != nullptr)
-  {
-    win->setProperty("width", LvglRenderer::Max_Width);
-    win->setProperty("height", LvglRenderer::Max_Height);
-    win->setProperty("tick_period_ms", LvglRenderer::Tick_Period_Ms);
-  }
+  auto* timer = window->findChild<QObject*>("timer");
+  timer->setProperty("interval", LvglRenderer::Tick_Period_Ms);
+
+  auto* mouseArea = window->findChild<QObject*>("mouseArea");
+  mouseArea->property("mouseX");
 
   return app.exec();
 }

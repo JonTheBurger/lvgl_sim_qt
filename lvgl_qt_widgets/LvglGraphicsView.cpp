@@ -127,7 +127,7 @@ static uint32_t toAscii(Qt::Key key)
     case Qt::Key_Home:
       ascii = LV_KEY_HOME;
     case Qt::Key_End:
-      ascii = (LV_KEY_END);
+      ascii = (LV_KEY_END);  // lack of parens breaks clang-format for some reason...
     default:
       ascii = key;
       break;

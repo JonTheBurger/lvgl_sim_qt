@@ -63,6 +63,7 @@ static void loadColorTable(QImage& image)
   {
     lv_color8_t truncated{};
     truncated.full = i;
+    // Shift bitfields by remaining bits in a uint8_t to give their representation maximum impact
     Color_Table.push_back(qRgb(truncated.ch.red << 5, truncated.ch.green << 5, truncated.ch.blue << 6));
   }
   Color_Table[255] = ~0;

@@ -1,5 +1,4 @@
 * text=auto
-
 #sources
 *.c text diff=cpp
 *.cc text diff=cpp
@@ -10,36 +9,29 @@
 *.h text diff=cpp
 *.h++ text diff=cpp
 *.hh text diff=cpp
-
 # Compiled Object files
 *.slo binary filter=lfs diff=lfs merge=lfs -binary
 *.lo binary filter=lfs diff=lfs merge=lfs -binary
 *.o binary filter=lfs diff=lfs merge=lfs -binary
 *.obj binary filter=lfs diff=lfs merge=lfs -binary
-
 # Precompiled Headers
 *.gch binary filter=lfs diff=lfs merge=lfs -binary
 *.pch binary filter=lfs diff=lfs merge=lfs -binary
-
 # Compiled Dynamic libraries
 *.so binary filter=lfs diff=lfs merge=lfs -binary
 *.dylib binary filter=lfs diff=lfs merge=lfs -binary
 *.dll binary filter=lfs diff=lfs merge=lfs -binary
-
 # Compiled Static libraries
 *.lai binary filter=lfs diff=lfs merge=lfs -binary
 *.la binary filter=lfs diff=lfs merge=lfs -binary
 *.a binary filter=lfs diff=lfs merge=lfs -binary
 *.lib binary filter=lfs diff=lfs merge=lfs -binary
-
 # Executables
 *.exe binary filter=lfs diff=lfs merge=lfs -binary
 *.out binary filter=lfs diff=lfs merge=lfs -binary
 *.app binary filter=lfs diff=lfs merge=lfs -binary
-
 # Resources
-*.png binary
+*.png filter=lfs diff=lfs merge=lfs -text
 *.ico binary
 *.jpeg binary
 *.jpg binary
-
