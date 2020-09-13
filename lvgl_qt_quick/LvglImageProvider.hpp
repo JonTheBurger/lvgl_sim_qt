@@ -4,12 +4,12 @@
 // 3rd Party
 #include <QQuickImageProvider>
 
-class LvglContext;
+class LvglRenderer;
 class LvglImageProvider final : public QQuickImageProvider {
-  LvglContext& context_;
+  LvglRenderer& renderer_;
 
 public:
-  LvglImageProvider(LvglContext& context);
+  LvglImageProvider(LvglRenderer& renderer);
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   QPixmap requestPixmap(const QString& id, QSize* size, const QSize& requestedSize, const QQuickImageProviderOptions& options) override;

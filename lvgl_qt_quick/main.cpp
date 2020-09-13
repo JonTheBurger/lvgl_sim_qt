@@ -9,7 +9,7 @@
 #include <lv_examples/lv_examples.h>
 
 // Local
-#include "LvglContext.hpp"
+#include "LvglRenderer.hpp"
 #include "LvglImageProvider.hpp"
 
 int main(int argc, char* argv[])
@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QGuiApplication       app(argc, argv);
   QQmlApplicationEngine engine;
-  LvglContext           lvgl;
+  LvglRenderer          lvgl;
   auto                  lvgl_image_provider = std::make_unique<LvglImageProvider>(lvgl);
 
   engine.addImageProvider("LvglImageProvider", lvgl_image_provider.release());  // engine takes ownership
@@ -35,9 +35,9 @@ int main(int argc, char* argv[])
   auto* win = qobject_cast<QQuickWindow*>(engine.rootObjects().value(0));
   if (win != nullptr)
   {
-    win->setProperty("width", LvglContext::Max_Width);
-    win->setProperty("height", LvglContext::Max_Height);
-    win->setProperty("tick_period_ms", LvglContext::Tick_Period_Ms);
+    win->setProperty("width", LvglRenderer::Max_Width);
+    win->setProperty("height", LvglRenderer::Max_Height);
+    win->setProperty("tick_period_ms", LvglRenderer::Tick_Period_Ms);
   }
 
   return app.exec();

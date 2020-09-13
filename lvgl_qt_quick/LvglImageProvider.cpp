@@ -2,12 +2,12 @@
 #include <QtGlobal>
 
 // Local
-#include "LvglContext.hpp"
+#include "LvglRenderer.hpp"
 #include "LvglImageProvider.hpp"
 
-LvglImageProvider::LvglImageProvider(LvglContext& context)
+LvglImageProvider::LvglImageProvider(LvglRenderer& renderer)
     : QQuickImageProvider(QQuickImageProvider::Pixmap)
-    , context_{ context }
+    , renderer_{ renderer }
 {
 }
 
@@ -19,13 +19,13 @@ QPixmap LvglImageProvider::requestPixmap(const QString&, QSize* size, const QSiz
 {
   if (size != nullptr)
   {
-    *size = { LvglContext::Max_Width, LvglContext::Max_Height };
+    *size = { LvglRenderer::Max_Width, LvglRenderer::Max_Height };
   }
 
-  lv_tick_inc(LvglContext::Tick_Period_Ms);
+  lv_tick_inc(LvglRenderer::Tick_Period_Ms);
   lv_task_handler();
 
-  return context_.pixmap().scaled(
-    requestedSize.width() > 0 ? requestedSize.width() : LvglContext::Max_Width,
-    requestedSize.height() > 0 ? requestedSize.height() : LvglContext::Max_Height);
+  return renderer_.pixmap().scaled(
+    requestedSize.width() > 0 ? requestedSize.width() : LvglRenderer::Max_Width,
+    requestedSize.height() > 0 ? requestedSize.height() : LvglRenderer::Max_Height);
 }

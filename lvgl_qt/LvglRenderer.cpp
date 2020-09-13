@@ -1,10 +1,10 @@
 // Local
-#include "LvglContext.hpp"
+#include "LvglRenderer.hpp"
 
 static void lvglFlushCallback(lv_disp_drv_t* display_driver, const lv_area_t* area, lv_color_t* colors);
 static void loadColorTable(QImage& image);
 
-LvglContext::LvglContext()
+LvglRenderer::LvglRenderer()
     : display_frame1_{}
     , display_frame2_{}
     , current_frame_{}
@@ -27,7 +27,7 @@ LvglContext::LvglContext()
   lv_disp_drv_register(&display_driver_);
 }
 
-void LvglContext::flush(const lv_disp_drv_t* const, const lv_area_t* const area, const lv_color_t* colors) noexcept
+void LvglRenderer::flush(const lv_disp_drv_t* const, const lv_area_t* const area, const lv_color_t* colors) noexcept
 {
   const auto x1    = area->x1;
   const auto x2    = area->x2;
@@ -42,15 +42,15 @@ void LvglContext::flush(const lv_disp_drv_t* const, const lv_area_t* const area,
   }
 }
 
-QPixmap LvglContext::pixmap() const
+QPixmap LvglRenderer::pixmap() const
 {
   return QPixmap::fromImage(image_);
 }
 
 static void lvglFlushCallback(lv_disp_drv_t* display_driver, const lv_area_t* area, lv_color_t* colors)
 {
-  auto* context = static_cast<LvglContext*>(display_driver->user_data);
-  context->flush(display_driver, area, colors);
+  auto* renderer = static_cast<LvglRenderer*>(display_driver->user_data);
+  renderer->flush(display_driver, area, colors);
   lv_disp_flush_ready(display_driver);
 }
 

@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 
 add_library(lvgl_qt
-  LvglContext.cpp
-  LvglContext.hpp
+  LvglRenderer.cpp
+  LvglRenderer.hpp
 )
 target_include_directories(lvgl_qt
   PUBLIC

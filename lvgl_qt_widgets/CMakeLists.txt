@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 add_executable(lvgl_qt_widgets
   main.cpp
+  LvglGraphicsView.cpp
+  LvglGraphicsView.hpp
   MainWindow.cpp
   MainWindow.hpp
   MainWindow.ui

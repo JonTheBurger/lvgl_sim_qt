@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QGraphicsView" name="graphicsView">
+     <widget class="LvglGraphicsView" name="graphicsView">
       <property name="backgroundBrush">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
@@ -42,6 +42,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>LvglGraphicsView</class>
+   <extends>QGraphicsView</extends>
+   <header>LvglGraphicsView.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

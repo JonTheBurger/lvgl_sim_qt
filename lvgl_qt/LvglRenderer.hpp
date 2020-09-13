@@ -1,5 +1,5 @@
-#ifndef LVGLCONTEXT_HPP
-#define LVGLCONTEXT_HPP
+#ifndef LVGLRENDERER_HPP
+#define LVGLRENDERER_HPP
 
 // Standard
 #include <cstddef>
@@ -11,17 +11,17 @@
 #include <lvgl/lvgl.h>
 
 #if (LV_COLOR_DEPTH == 32)
-#  define LVGL_SIM_QT_LVGL_CONTEXT_IMAGE_FORMAT (QImage::Format_ARGB32)
+#  define LVGL_SIM_QT_LVGL_RENDERER_IMAGE_FORMAT (QImage::Format_ARGB32)
 #elif ((LV_COLOR_DEPTH == 16) && (LV_COLOR_16_SWAP == 0))
-#  define LVGL_SIM_QT_LVGL_CONTEXT_IMAGE_FORMAT (QImage::Format_RGB16)
+#  define LVGL_SIM_QT_LVGL_RENDERER_IMAGE_FORMAT (QImage::Format_RGB16)
 #else
-#  define LVGL_SIM_QT_LVGL_CONTEXT_IMAGE_FORMAT (QImage::Format_Indexed8)
+#  define LVGL_SIM_QT_LVGL_RENDERER_IMAGE_FORMAT (QImage::Format_Indexed8)
 #endif
 
-class LvglContext {
+class LvglRenderer {
 public:
-  static constexpr QImage::Format Image_Format         = LVGL_SIM_QT_LVGL_CONTEXT_IMAGE_FORMAT;
-  static constexpr int            Tick_Period_Ms       = 100;
+  static constexpr QImage::Format Image_Format         = LVGL_SIM_QT_LVGL_RENDERER_IMAGE_FORMAT;
+  static constexpr int            Tick_Period_Ms       = 50;
   static constexpr size_t         Max_Height           = LV_VER_RES_MAX;
   static constexpr size_t         Max_Width            = LV_HOR_RES_MAX;
 
@@ -34,9 +34,9 @@ private:
   QImage        image_;
 
 public:
-  LvglContext();
+  LvglRenderer();
   void    flush(const lv_disp_drv_t* display_driver, const lv_area_t* area, const lv_color_t* colors) noexcept;
   QPixmap pixmap() const;
 };
 
-#endif // LVGLCONTEXT_HPP
+#endif  // LVGLRENDERER_HPP
