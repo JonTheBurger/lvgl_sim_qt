@@ -21,7 +21,7 @@
 class LvglRenderer {
 public:
   static constexpr QImage::Format Image_Format         = LVGL_SIM_QT_LVGL_RENDERER_IMAGE_FORMAT;
-  static constexpr int            Tick_Period_Ms       = 50;
+  static constexpr int            Tick_Period_Ms       = 16;
   static constexpr size_t         Max_Height           = LV_VER_RES_MAX;
   static constexpr size_t         Max_Width            = LV_HOR_RES_MAX;
 

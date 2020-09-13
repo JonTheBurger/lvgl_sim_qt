@@ -1,11 +1,6 @@
-// Standard
-#include <memory>
-
 // 3rd Party
-#include <QDebug>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QQmlContext>
 #include <QQuickWindow>
 #include <lv_examples/lv_examples.h>
 
@@ -19,12 +14,12 @@ int main(int argc, char* argv[])
   QGuiApplication       app(argc, argv);
   QQmlApplicationEngine engine;
   LvglRenderer          lvgl;
-  auto                  lvgl_image_provider = std::make_unique<LvglImageProvider>(lvgl);
+  auto*                 lvgl_image_provider = new LvglImageProvider(lvgl);
 
-  engine.addImageProvider("LvglImageProvider", lvgl_image_provider.release());  // engine takes ownership
+  engine.addImageProvider("LvglImageProvider", lvgl_image_provider);  // engine takes ownership
 
   /// lvgl_sim_qt_example
-  lv_demo_benchmark();
+  lv_demo_widgets();
 
   const QUrl url(QStringLiteral("qrc:/main.qml"));
   engine.load(url);
@@ -39,8 +34,7 @@ int main(int argc, char* argv[])
   auto* timer = window->findChild<QObject*>("timer");
   timer->setProperty("interval", LvglRenderer::Tick_Period_Ms);
 
-  auto* mouseArea = window->findChild<QObject*>("mouseArea");
-  mouseArea->property("mouseX");
+  lvgl_image_provider->setMouseArea(window->findChild<QObject*>("mouseArea"));
 
   return app.exec();
 }
