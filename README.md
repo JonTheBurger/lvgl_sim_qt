@@ -18,6 +18,7 @@ This software requires:
 git clone https://github.com/JonTheBurger/lvgl_sim_qt.git --recursive
 cd lvgl_sim_qt
 cmake -Bbuild -S.
+cmake --build build
 ```
 
 Executables will be placed in `build/lvgl_qt_quick` and `build/lvgl_qt_widgets`.
