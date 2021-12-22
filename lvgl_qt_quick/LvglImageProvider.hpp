@@ -3,7 +3,7 @@
 
 // 3rd Party
 #include <QQuickImageProvider>
-#include <lvgl/lvgl.h>
+#include <lvgl.h>
 
 class LvglRenderer;
 class LvglImageProvider final : public QQuickImageProvider {
@@ -19,11 +19,7 @@ public:
   QPointF     mousePosition() const;
   bool        isMousePressed() const noexcept;
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  QPixmap requestPixmap(const QString& id, QSize* size, const QSize& requestedSize, const QQuickImageProviderOptions& options) override;
-#else
   QPixmap requestPixmap(const QString& id, QSize* size, const QSize& requestedSize) override;
-#endif
 };
 
 #endif // LVGLIMAGEPROVIDER_HPP

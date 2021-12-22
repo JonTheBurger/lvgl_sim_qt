@@ -5,7 +5,7 @@
 #include "LvglRenderer.hpp"
 #include "LvglImageProvider.hpp"
 
-static bool mouseRead(lv_indev_drv_t* device, lv_indev_data_t* data);
+static void mouseRead(lv_indev_drv_t* device, lv_indev_data_t* data);
 
 LvglImageProvider::LvglImageProvider(LvglRenderer& renderer)
     : QQuickImageProvider(QQuickImageProvider::Pixmap)
@@ -21,11 +21,7 @@ LvglImageProvider::LvglImageProvider(LvglRenderer& renderer)
   mouse_device_           = lv_indev_drv_register(&mouse_driver_);
 }
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-QPixmap LvglImageProvider::requestPixmap(const QString&, QSize* size, const QSize& requestedSize, const QQuickImageProviderOptions&)
-#else
 QPixmap LvglImageProvider::requestPixmap(const QString&, QSize* size, const QSize& requestedSize)
-#endif
 {
   if (size != nullptr)
   {
@@ -68,12 +64,11 @@ bool LvglImageProvider::isMousePressed() const noexcept
   return is_pressed;
 }
 
-static bool mouseRead(lv_indev_drv_t* device, lv_indev_data_t* data)
+static void mouseRead(lv_indev_drv_t* device, lv_indev_data_t* data)
 {
   auto* view        = static_cast<LvglImageProvider*>(device->user_data);
   auto  mouse_point = view->mousePosition();
   data->point.x     = mouse_point.x();
   data->point.y     = mouse_point.y();
   data->state       = view->isMousePressed() ? LV_INDEV_STATE_PR : LV_INDEV_STATE_REL;
-  return false;
 }

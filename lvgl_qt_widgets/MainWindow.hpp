@@ -9,6 +9,7 @@
 #include <QTimer>
 
 // hello
+#include "LvglGraphicsView.hpp"
 namespace Ui {
 class MainWindow;
 }
@@ -21,6 +22,7 @@ class MainWindow final : public QMainWindow {
 
 public:
   explicit MainWindow(QWidget* parent = nullptr);
+  LvglGraphicsView& view();
   ~MainWindow() override;
 };
 

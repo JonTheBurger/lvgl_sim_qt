@@ -9,10 +9,11 @@ add_executable(lvgl_qt_quick
 target_include_directories(lvgl_qt_quick
   PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}
+    ${PROJECT_SOURCE_DIR}/external/lv_examples/src
 )
 target_link_libraries(lvgl_qt_quick
   PRIVATE
-    lv_examples
+    lvgl::demos
     lvgl_qt
     Qt${QT_VERSION_MAJOR}::Quick
 )

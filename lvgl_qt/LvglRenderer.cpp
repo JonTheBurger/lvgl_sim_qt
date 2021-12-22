@@ -16,13 +16,15 @@ LvglRenderer::LvglRenderer()
 {
   loadColorTable(image_);
   lv_init();
-  lv_disp_buf_init(&display_buffer_,
+  lv_disp_draw_buf_init(&display_buffer_,
                    display_frame1_,
                    display_frame2_,
                    sizeof(display_frame1_) / sizeof(*display_frame1_));
   lv_disp_drv_init(&display_driver_);
-  display_driver_.buffer    = &display_buffer_;
+  display_driver_.draw_buf  = &display_buffer_;
   display_driver_.flush_cb  = &lvglFlushCallback;
+  display_driver_.hor_res = Max_Width;
+  display_driver_.ver_res = Max_Height;
   display_driver_.user_data = this;
   lv_disp_drv_register(&display_driver_);
 }

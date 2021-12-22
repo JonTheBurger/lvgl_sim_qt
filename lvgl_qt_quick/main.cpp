@@ -1,32 +1,38 @@
+// Standard
+#include <memory>
+
 // 3rd Party
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickWindow>
-#include <lv_examples/lv_examples.h>
+#include <lv_demo.h>
 
 // Local
-#include "LvglRenderer.hpp"
 #include "LvglImageProvider.hpp"
+#include "LvglRenderer.hpp"
 
 int main(int argc, char* argv[])
 {
   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QGuiApplication       app(argc, argv);
   QQmlApplicationEngine engine;
-  LvglRenderer          lvgl;
-  auto*                 lvgl_image_provider = new LvglImageProvider(lvgl);
+  auto                  lvgl                = std::make_unique<LvglRenderer>();
+  auto*                 lvgl_image_provider = new LvglImageProvider(*lvgl);
 
   engine.addImageProvider("LvglImageProvider", lvgl_image_provider);  // engine takes ownership
 
   /// lvgl_sim_qt_example
   lv_demo_widgets();
+  //  lv_demo_stress();
+  //  lv_demo_benchmark();
+  //  lv_demo_music();
 
   const QUrl url(QStringLiteral("qrc:/main.qml"));
   engine.load(url);
   auto* window = qobject_cast<QQuickWindow*>(engine.rootObjects().value(0, nullptr));
   if (window == nullptr)
   {
-    EXIT_FAILURE;
+    return EXIT_FAILURE;
   }
   window->setProperty("width", LvglRenderer::Max_Width);
   window->setProperty("height", LvglRenderer::Max_Height);
