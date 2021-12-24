@@ -7,6 +7,13 @@ Window {
     title: qsTr("lvgl_qt_quick")
     property int swap: 0
 
+    Item {
+        anchors.fill: parent
+        focus: true
+        Keys.onPressed: event => backend.onKeyEvent(event.key, true)
+        Keys.onReleased: event => backend.onKeyEvent(event.key, false)
+    }
+
     // `image.source` has been binded to `swap`, so updating `swap` re-runs `requestPixmap`.
     //  Disable caching to call into `LvglImageProvider::requestPixmap` each time.
     Image {

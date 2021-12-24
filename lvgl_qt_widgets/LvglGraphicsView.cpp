@@ -6,9 +6,8 @@
 // Local
 #include "LvglGraphicsView.hpp"
 
-static void     keyboardRead(lv_indev_drv_t* device, lv_indev_data_t* data);
-static uint32_t toAscii(Qt::Key key);
-static void     mouseRead(lv_indev_drv_t* device, lv_indev_data_t* data);
+static void keyboardRead(lv_indev_drv_t* device, lv_indev_data_t* data);
+static void mouseRead(lv_indev_drv_t* device, lv_indev_data_t* data);
 
 LvglGraphicsView::LvglGraphicsView(QWidget* parent)
     : LvglGraphicsView(nullptr, parent)
@@ -30,6 +29,10 @@ LvglGraphicsView::LvglGraphicsView(QGraphicsScene* scene, QWidget* parent)
   keyboard_driver_.user_data = this;
   keyboard_driver_.read_cb   = &keyboardRead;
   keyboard_device_           = lv_indev_drv_register(&keyboard_driver_);
+
+  auto* default_group = lv_group_create();
+  lv_group_set_default(default_group);
+  lv_indev_set_group(keyboard_device_, default_group);
 
   lv_indev_drv_init(&mouse_driver_);
   mouse_driver_.type      = LV_INDEV_TYPE_POINTER;
@@ -96,53 +99,8 @@ void LvglGraphicsView::mouseReleaseEvent(QMouseEvent* event)
 static void keyboardRead(lv_indev_drv_t* device, lv_indev_data_t* data)
 {
   auto* view  = static_cast<LvglGraphicsView*>(device->user_data);
-  data->key   = toAscii(view->key());
+  data->key   = LvglRenderer::toAscii(view->key());
   data->state = (data->key == 0) ? LV_INDEV_STATE_REL : LV_INDEV_STATE_PR;
-}
-
-static uint32_t toAscii(Qt::Key key)
-{
-  uint32_t ascii = 0;
-  switch (key)
-  {
-    case Qt::Key_Up:
-      ascii = LV_KEY_UP;
-      break;
-    case Qt::Key_Down:
-      ascii = LV_KEY_DOWN;
-      break;
-    case Qt::Key_Right:
-      ascii = LV_KEY_RIGHT;
-      break;
-    case Qt::Key_Left:
-      ascii = LV_KEY_LEFT;
-      break;
-    case Qt::Key_Escape:
-      ascii = LV_KEY_ESC;
-      break;
-    case Qt::Key_Delete:
-      ascii = LV_KEY_DEL;
-      break;
-    case Qt::Key_Backspace:
-      ascii = LV_KEY_BACKSPACE;
-      break;
-    case Qt::Key_Enter:
-      ascii = LV_KEY_ENTER;
-      break;
-    case Qt::Key_Tab:
-      ascii = LV_KEY_NEXT;
-      break;
-    case Qt::Key_Home:
-      ascii = LV_KEY_HOME;
-      break;
-    case Qt::Key_End:
-      ascii = (LV_KEY_END);  // lack of parens breaks clang-format for some reason...
-      break;
-    default:
-      ascii = key;
-      break;
-  }
-  return ascii;
 }
 
 static void mouseRead(lv_indev_drv_t* device, lv_indev_data_t* data)

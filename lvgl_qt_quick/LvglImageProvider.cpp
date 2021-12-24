@@ -2,10 +2,11 @@
 #include <QObject>
 
 // Local
-#include "LvglRenderer.hpp"
 #include "LvglImageProvider.hpp"
+#include "LvglRenderer.hpp"
 
 static void mouseRead(lv_indev_drv_t* device, lv_indev_data_t* data);
+static void keyboardRead(lv_indev_drv_t* device, lv_indev_data_t* data);
 
 LvglImageProvider::LvglImageProvider(LvglRenderer& renderer)
     : QQuickImageProvider(QQuickImageProvider::Pixmap)
@@ -14,6 +15,16 @@ LvglImageProvider::LvglImageProvider(LvglRenderer& renderer)
     , mouse_driver_{}
     , mouse_device_{ nullptr }
 {
+  lv_indev_drv_init(&keyboard_driver_);
+  keyboard_driver_.type      = LV_INDEV_TYPE_KEYPAD;
+  keyboard_driver_.user_data = this;
+  keyboard_driver_.read_cb   = &keyboardRead;
+  keyboard_device_           = lv_indev_drv_register(&keyboard_driver_);
+
+  auto* default_group = lv_group_create();
+  lv_group_set_default(default_group);
+  lv_indev_set_group(keyboard_device_, default_group);
+
   lv_indev_drv_init(&mouse_driver_);
   mouse_driver_.type      = LV_INDEV_TYPE_POINTER;
   mouse_driver_.user_data = this;
@@ -64,6 +75,23 @@ bool LvglImageProvider::isMousePressed() const noexcept
   return is_pressed;
 }
 
+Qt::Key LvglImageProvider::key() const noexcept
+{
+  return key_;
+}
+
+void LvglImageProvider::onKeyEvent(Qt::Key key, bool is_pressed)
+{
+  if (is_pressed)
+  {
+    key_ = static_cast<Qt::Key>(key);
+  }
+  else
+  {
+    key_ = {};
+  }
+}
+
 static void mouseRead(lv_indev_drv_t* device, lv_indev_data_t* data)
 {
   auto* view        = static_cast<LvglImageProvider*>(device->user_data);
@@ -71,4 +99,11 @@ static void mouseRead(lv_indev_drv_t* device, lv_indev_data_t* data)
   data->point.x     = mouse_point.x();
   data->point.y     = mouse_point.y();
   data->state       = view->isMousePressed() ? LV_INDEV_STATE_PR : LV_INDEV_STATE_REL;
+}
+
+static void keyboardRead(lv_indev_drv_t* device, lv_indev_data_t* data)
+{
+  auto* view  = static_cast<LvglImageProvider*>(device->user_data);
+  data->key   = LvglRenderer::toAscii(view->key());
+  data->state = (data->key == 0) ? LV_INDEV_STATE_REL : LV_INDEV_STATE_PR;
 }

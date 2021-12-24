@@ -35,17 +35,15 @@ to matching versions.
 # Implementation Notes
 - If attempting to port code, note that `LvglGraphicsView` is added in Qt Designer using [promote widget](https://doc.qt.io/qt-5/designer-using-custom-widgets.html).
 - Some amount of care has been taken to make this repository Qt6 compatible and lvgl update friendly, but no stable
-releases exist at time of writing, so these remain untested.
+  releases exist at time of writing, so these remain untested.
 - Qt5 does not support 8-bit 332 color, so a quick and dirty 8-bit color palette is generated in this case.
 - Both applications render to a `QImage`, so this common functionality is extracted into `lvgl_qt/LvglRenderer`.
 - Forward declarations of classes are used when possible to speed up preprocess time.
 - All render callbacks are piped through the Qt event loop, so no additional multithreading considerations should be
-necessary for this example.
+  necessary for this example.
 - `mouseMoveEvent` only registers movement on a mouse click by default, so a simpler position query is used instead.
-- Blindly setting Qt Quick properties from C++ is not a great idea in a production application. In fact, don't use this
-as an example of QML best practices.
+- The [Qt official docs](https://doc.qt.io/qt-5/qtquick-bestpractices.html) suggest calling C++ from QML over calling
+  QML from C++ for maintainability reasons. We set QML properties from C++ when the values are shared between the Quick
+  and Widgets applications, and C++ from QML otherwise.
 - Decrease `Tick_Period_Ms` to improve responsiveness.
 - Resize is supported, and mouse input coordinates are properly scaled.
-
-# Future Work
-- _Maybe_ hack around `lv_drivers` to get Qt based keyboard globally registered.

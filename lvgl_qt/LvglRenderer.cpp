@@ -17,14 +17,14 @@ LvglRenderer::LvglRenderer()
   loadColorTable(image_);
   lv_init();
   lv_disp_draw_buf_init(&display_buffer_,
-                   display_frame1_,
-                   display_frame2_,
-                   sizeof(display_frame1_) / sizeof(*display_frame1_));
+                        display_frame1_,
+                        display_frame2_,
+                        sizeof(display_frame1_) / sizeof(*display_frame1_));
   lv_disp_drv_init(&display_driver_);
   display_driver_.draw_buf  = &display_buffer_;
   display_driver_.flush_cb  = &lvglFlushCallback;
-  display_driver_.hor_res = Max_Width;
-  display_driver_.ver_res = Max_Height;
+  display_driver_.hor_res   = Max_Width;
+  display_driver_.ver_res   = Max_Height;
   display_driver_.user_data = this;
   lv_disp_drv_register(&display_driver_);
 }
@@ -47,6 +47,51 @@ void LvglRenderer::flush(const lv_disp_drv_t* const, const lv_area_t* const area
 QPixmap LvglRenderer::pixmap() const
 {
   return QPixmap::fromImage(image_);
+}
+
+uint32_t LvglRenderer::toAscii(Qt::Key key)
+{
+  uint32_t ascii = 0;
+  switch (key)
+  {
+    case Qt::Key_Up:
+      ascii = LV_KEY_UP;
+      break;
+    case Qt::Key_Down:
+      ascii = LV_KEY_DOWN;
+      break;
+    case Qt::Key_Right:
+      ascii = LV_KEY_RIGHT;
+      break;
+    case Qt::Key_Left:
+      ascii = LV_KEY_LEFT;
+      break;
+    case Qt::Key_Escape:
+      ascii = LV_KEY_ESC;
+      break;
+    case Qt::Key_Delete:
+      ascii = LV_KEY_DEL;
+      break;
+    case Qt::Key_Backspace:
+      ascii = LV_KEY_BACKSPACE;
+      break;
+    case Qt::Key_Enter:
+      ascii = LV_KEY_ENTER;
+      break;
+    case Qt::Key_Tab:
+      ascii = LV_KEY_NEXT;
+      break;
+    case Qt::Key_Home:
+      ascii = LV_KEY_HOME;
+      break;
+    case Qt::Key_End:
+      ascii = (LV_KEY_END);  // lack of parens breaks clang-format for some reason...
+      break;
+    default:
+      ascii = key;
+      break;
+  }
+  return ascii;
 }
 
 static void lvglFlushCallback(lv_disp_drv_t* display_driver, const lv_area_t* area, lv_color_t* colors)

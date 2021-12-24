@@ -18,8 +18,8 @@ class LvglGraphicsView final : public QGraphicsView {
   bool           is_mouse_pressed_;
 
 public:
-  LvglGraphicsView(QWidget* parent = nullptr);
-  LvglGraphicsView(QGraphicsScene* scene, QWidget* parent = nullptr);
+  explicit LvglGraphicsView(QWidget* parent = nullptr);
+  explicit LvglGraphicsView(QGraphicsScene* scene, QWidget* parent = nullptr);
 
   void        tick();
   lv_indev_t* keyboardDevice();
