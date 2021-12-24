@@ -1,6 +1,6 @@
 [submodule "external/lvgl"]
 	path = external/lvgl
 	url = https://github.com/lvgl/lvgl.git
-[submodule "external/lv_examples"]
-	path = external/lv_examples
-	url = https://github.com/lvgl/lv_examples.git
+[submodule "external/lv_demos"]
+	path = external/lv_demos
+	url = https://github.com/lvgl/lv_demos.git

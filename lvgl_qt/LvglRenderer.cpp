@@ -18,7 +18,7 @@ LvglRenderer::LvglRenderer()
   lv_init();
   lv_disp_draw_buf_init(&display_buffer_,
                         display_frame1_,
-                        display_frame2_,
+                        display_frame2_,  // Second buffer can be nullptr for single-buffering
                         sizeof(display_frame1_) / sizeof(*display_frame1_));
   lv_disp_drv_init(&display_driver_);
   display_driver_.draw_buf  = &display_buffer_;
