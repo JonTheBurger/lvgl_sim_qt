@@ -22,8 +22,8 @@ class LvglRenderer {
 public:
   static constexpr QImage::Format Image_Format   = LVGL_SIM_QT_LVGL_RENDERER_IMAGE_FORMAT;
   static constexpr int            Tick_Period_Ms = 16;
-  static constexpr size_t         Max_Width      = 640;  ///< in pixels
-  static constexpr size_t         Max_Height     = 360;  ///< in pixels
+  static constexpr int            Max_Width      = 640;  ///< in pixels
+  static constexpr int            Max_Height     = 360;  ///< in pixels
   /// 1 Screen Size to N Display Buffer Size ratio. [LVGL recommends one tenth](https://docs.lvgl.io/latest/en/html/get-started/quick-overview.html#add-lvgl-into-your-project)
   static constexpr size_t Display_Buffer_Ratio = 10;
 

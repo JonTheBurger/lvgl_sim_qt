@@ -1,6 +1,6 @@
 // 3rd Party
 #include <QApplication>
-#include <lv_demo.h>
+#include <lv_demos.h>
 #include <lv_examples.h>
 
 // Local

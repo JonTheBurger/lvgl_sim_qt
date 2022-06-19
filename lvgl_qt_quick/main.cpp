@@ -6,7 +6,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickWindow>
-#include <lv_demo.h>
+#include <lv_demos.h>
+#include <lv_examples.h>
 
 // Local
 #include "LvglImageProvider.hpp"

@@ -25,8 +25,15 @@ find_package(Qt${QT_VERSION_MAJOR}
     Widgets
   REQUIRED
 )
+add_compile_definitions(
+  LV_USE_DEMO_BENCHMARK=1
+  LV_USE_DEMO_KEYPAD_AND_ENCODER=1
+  LV_USE_DEMO_MUSIC=1
+  LV_USE_DEMO_STRESS=1
+  LV_USE_DEMO_WIDGETS=1
+)
 
-add_subdirectory(external)
+add_subdirectory(external EXCLUDE_FROM_ALL)
 add_subdirectory(lvgl_qt)
 add_subdirectory(lvgl_qt_quick)
 add_subdirectory(lvgl_qt_widgets)
