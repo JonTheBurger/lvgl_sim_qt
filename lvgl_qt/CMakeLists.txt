@@ -11,5 +11,7 @@ target_include_directories(lvgl_qt
 target_link_libraries(lvgl_qt
   PUBLIC
     lvgl
-    Qt${QT_VERSION_MAJOR}::Gui
+    lvgl_examples
+    lvgl::demos
+    Qt::Gui
 )

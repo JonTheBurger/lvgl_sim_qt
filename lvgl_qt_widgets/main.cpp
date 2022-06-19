@@ -1,6 +1,7 @@
 // 3rd Party
 #include <QApplication>
-#include <lv_examples/lv_examples.h>
+#include <lv_demos.h>
+#include <lv_examples.h>
 
 // Local
 #include "LvglRenderer.hpp"
@@ -11,8 +12,11 @@ int main(int argc, char* argv[])
   QApplication app(argc, argv);
   MainWindow   window;
 
-  /// lvgl_sim_qt_example
+  /// Uncomment one of the following for a demo
   lv_demo_widgets();
+  // lv_demo_stress();
+  // lv_demo_benchmark();
+  // lv_demo_music();
 
   window.show();
   return app.exec();

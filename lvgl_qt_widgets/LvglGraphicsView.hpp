@@ -3,12 +3,11 @@
 
 // 3rd Party
 #include <QGraphicsView>
-#include <lvgl/lvgl.h>
+#include <lvgl.h>
 
 // Local
 #include "LvglRenderer.hpp"
 
-class LvglRenderer;
 class LvglGraphicsView final : public QGraphicsView {
   LvglRenderer   renderer_;
   lv_indev_drv_t keyboard_driver_;
@@ -19,8 +18,8 @@ class LvglGraphicsView final : public QGraphicsView {
   bool           is_mouse_pressed_;
 
 public:
-  LvglGraphicsView(QWidget* parent = nullptr);
-  LvglGraphicsView(QGraphicsScene* scene, QWidget* parent = nullptr);
+  explicit LvglGraphicsView(QWidget* parent = nullptr);
+  explicit LvglGraphicsView(QGraphicsScene* scene, QWidget* parent = nullptr);
 
   void        tick();
   lv_indev_t* keyboardDevice();
@@ -35,4 +34,4 @@ private:
   void mouseReleaseEvent(QMouseEvent* event) override;
 };
 
-#endif // LVGLGRAPHICSVIEW_HPP
+#endif  // LVGLGRAPHICSVIEW_HPP

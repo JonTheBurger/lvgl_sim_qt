@@ -12,9 +12,9 @@ target_include_directories(lvgl_qt_quick
 )
 target_link_libraries(lvgl_qt_quick
   PRIVATE
-    lv_examples
+    lvgl::demos
     lvgl_qt
-    Qt${QT_VERSION_MAJOR}::Quick
+    Qt::Quick
 )
 target_compile_definitions(lvgl_qt_quick
   PRIVATE

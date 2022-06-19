@@ -3,27 +3,31 @@
 
 // 3rd Party
 #include <QQuickImageProvider>
-#include <lvgl/lvgl.h>
+#include <lvgl.h>
 
 class LvglRenderer;
 class LvglImageProvider final : public QQuickImageProvider {
+  Q_OBJECT
+
   LvglRenderer&  renderer_;
   QObject*       mouse_area_;
+  Qt::Key        key_;
   lv_indev_drv_t mouse_driver_;
+  lv_indev_drv_t keyboard_driver_;
   lv_indev_t*    mouse_device_;
+  lv_indev_t*    keyboard_device_;
 
 public:
-  LvglImageProvider(LvglRenderer& renderer);
+  explicit LvglImageProvider(LvglRenderer& renderer);
 
-  void        setMouseArea(QObject* mouse_area);
-  QPointF     mousePosition() const;
-  bool        isMousePressed() const noexcept;
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-  QPixmap requestPixmap(const QString& id, QSize* size, const QSize& requestedSize, const QQuickImageProviderOptions& options) override;
-#else
   QPixmap requestPixmap(const QString& id, QSize* size, const QSize& requestedSize) override;
-#endif
+  void    setMouseArea(QObject* mouse_area);
+  QPointF mousePosition() const;
+  bool    isMousePressed() const noexcept;
+  Qt::Key key() const noexcept;
+
+public slots:
+  void onKeyEvent(Qt::Key key, bool is_pressed);
 };
 
-#endif // LVGLIMAGEPROVIDER_HPP
+#endif  // LVGLIMAGEPROVIDER_HPP

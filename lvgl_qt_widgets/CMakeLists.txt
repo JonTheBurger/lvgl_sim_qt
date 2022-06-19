@@ -14,7 +14,7 @@ target_include_directories(lvgl_qt_widgets
 )
 target_link_libraries(lvgl_qt_widgets
   PRIVATE
-    lv_examples
+    lvgl::demos
     lvgl_qt
-    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt::Widgets
 )
