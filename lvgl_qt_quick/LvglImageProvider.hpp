@@ -6,7 +6,13 @@
 #include <lvgl.h>
 
 class LvglRenderer;
-class LvglImageProvider final : public QQuickImageProvider {
+class LvglImageProvider final :
+
+#if QT_VERSION < 0x060000
+    public QObject,
+#endif
+
+public QQuickImageProvider {
   Q_OBJECT
 
   LvglRenderer&  renderer_;
