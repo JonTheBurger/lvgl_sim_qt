@@ -48,7 +48,8 @@ void LvglGraphicsView::tick()
 
   QGraphicsScene* scene = this->scene();
   scene->clear();
-  const auto* item = scene->addPixmap(renderer_.pixmap());
+  auto* item = scene->addPixmap(renderer_.pixmap());
+  item->setTransformationMode(Qt::SmoothTransformation);
   fitInView(item);
 }
 
