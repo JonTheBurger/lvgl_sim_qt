@@ -1,6 +1,11 @@
 // Local
 #include "LvglRenderer.hpp"
 
+#if QT_VERSION < 0x060000  // C++ 14 (Qt 5) doesn't support inline variables
+constexpr int LvglRenderer::Max_Width;
+constexpr int LvglRenderer::Max_Height;
+#endif
+
 static void lvglFlushCallback(lv_disp_drv_t* display_driver, const lv_area_t* area, lv_color_t* colors);
 static void loadColorTable(QImage& image);
 
